@@ -7,32 +7,40 @@
 //
 
 import UIKit
+import AVFoundation
 
 class ViewController: UIViewController {
 
+    @IBOutlet weak var progressBar: UIProgressView!
     @IBOutlet weak var titleLabel: UILabel!
     private enum HardnessTime: Int {
         case softTime = 3
-        case mediumTime = 420
-        case hardTime = 720
+        case mediumTime = 6
+        case hardTime = 15
     }
     private var timer: Timer?
     private var secondsRemaining = 0
+    private var progressBarPace: Float = 0
+    private var player: AVAudioPlayer!
 
     @IBAction func hardnessSelected(_ sender: UIButton) {
         guard let buttonTitle = sender.currentTitle else {
             return
         }
 
-        titleLabel.text = "How do you like your eggs?"
+        titleLabel.text = "\(buttonTitle)"
         stopTimer()
+        progressBar.progress = 0
 
         if buttonTitle == "Hard" {
             secondsRemaining = HardnessTime.hardTime.rawValue
+            progressBarPace = Float(HardnessTime.hardTime.rawValue)
         } else if buttonTitle == "Medium" {
             secondsRemaining = HardnessTime.mediumTime.rawValue
+            progressBarPace = Float(HardnessTime.mediumTime.rawValue)
         } else {
             secondsRemaining = HardnessTime.softTime.rawValue
+            progressBarPace = Float(HardnessTime.softTime.rawValue)
         }
 
         timer = Timer.scheduledTimer(timeInterval: 1.0,
@@ -46,8 +54,10 @@ class ViewController: UIViewController {
         if secondsRemaining > 0 {
             print("\(secondsRemaining) seconds.")
             secondsRemaining -= 1
+            progressBar.progress += 1/progressBarPace
         } else {
             stopTimer()
+            playAlarm()
             titleLabel.text = "Done!"
         }
     }
@@ -55,5 +65,9 @@ class ViewController: UIViewController {
     private func stopTimer() {
         timer?.invalidate()
         timer = nil
+    }
+
+    private func playAlarm() {
+        
     }
 }
