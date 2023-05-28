@@ -68,6 +68,19 @@ class ViewController: UIViewController {
     }
 
     private func playAlarm() {
-        
+        guard let url = Bundle.main.url(forResource: "alarm_sound", withExtension: "mp3") else {
+            return
+        }
+
+        do {
+            player = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.mp3.rawValue)
+
+            guard let player = player else {
+                return
+            }
+            player.play()
+        } catch let error {
+            print(error.localizedDescription)
+        }
     }
 }
