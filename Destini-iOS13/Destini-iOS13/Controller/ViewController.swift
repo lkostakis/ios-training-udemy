@@ -13,21 +13,21 @@ class ViewController: UIViewController {
     @IBOutlet weak var storyLabel: UILabel!
     @IBOutlet weak var choice1Button: UIButton!
     @IBOutlet weak var choice2Button: UIButton!
-    private let storyBrain: StoryBrain?
+    private var storyBrain = StoryBrain()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        updateUI()
     }
 
     @IBAction func choiceMade(_ sender: UIButton) {
-        if sender.tag == 1 {
-            print(1)
-        } else {
-            print(2)
-        }
+        storyBrain.getNextStory(userChoice: sender.tag)
+        updateUI()
     }
 
     func updateUI() {
-        storyBrain.nextChapter()
+        storyLabel.text = storyBrain.getStoryTitle()
+        choice1Button.setTitle(storyBrain.getChoice1(), for: .normal)
+        choice2Button.setTitle(storyBrain.getChoice2(), for: .normal)
     }
 }
