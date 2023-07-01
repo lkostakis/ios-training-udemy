@@ -42,8 +42,7 @@ class CalculatorViewController: UIViewController {
     @IBAction func calculatePressed(_ sender: UIButton) {
         let totalCost = totalBill * (1 + Double(tipPercentage)/100) / Double(splitNumber)
 
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let resultsVC = storyboard.instantiateViewController(withIdentifier: "ResultsViewController") as! ResultsViewController
+        let resultsVC = ResultsViewController()
         resultsVC.totalCost = totalCost
         resultsVC.split = splitNumber
         resultsVC.tip = tipPercentage
